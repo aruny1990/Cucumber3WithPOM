@@ -25,6 +25,7 @@ public class Hook {
 	public void startSetUp() {
 
 		System.setProperty("webdriver.chrome.silentOutput", "true");
+		
 		WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("enable-automation");
@@ -54,8 +55,7 @@ public class Hook {
 		if (scenario.isFailed() == true) {
 			String screenshotName = scenario.getName().replaceAll(" ", "_");
 			try {
-				TakesScreenshot ts = (TakesScreenshot) driver;
-				File sourcePath = ts.getScreenshotAs(OutputType.FILE);
+				File sourcePath = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 				File destinationPath = new File(
 						System.getProperty("user.dir") + "/FailedScreenshots/" + screenshotName + ".png");
 				Files.copy(sourcePath, destinationPath);
